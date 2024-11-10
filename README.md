@@ -37,7 +37,7 @@ cd ~/ros2_ws
 
 # 4. Clone the repository
 # Clone the desired branch of the repository to your workspace
-git clone https://github.com/nazringr/my_beginner_tutorials/tree/ros_pub_sub
+git clone https://github.com/nazringr/my_beginner_tutorials.git
 
 # 5. Install rosdep dependencies before building the package
 # rosdep installs the necessary dependencies for the package
