@@ -15,11 +15,10 @@ The publisher node publishes a message containing a string to a topic at regular
 - `std_msgs` for standard message types (e.g., `std_msgs::msg::String`)
 - `ament_cmake` as the build system
 
-### Assumptions
+## Assumptions
 - ROS 2 Humble is installed on your system.
 - The workspace is sourced correctly, and the ROS environment is properly set up.
 
-## Build Steps
 
 ## Build Steps
 
