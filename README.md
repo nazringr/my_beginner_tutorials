@@ -1,8 +1,11 @@
 # Beginner Tutorials - ROS 2 Publisher and Subscriber
 
-This package demonstrates the basic functionality of a **ROS 2 Publisher** and **Subscriber** using C++. The publisher node publishes a message containing a string to a topic at regular intervals, while the subscriber node listens to that topic and logs the received messages.
+## Overview
 
-### Features
+This package demonstrates the basic functionality of a ROS 2 **Publisher** and **Subscriber** using C++. 
+
+The publisher node publishes a message containing a string to a topic at regular intervals, while the subscriber node listens to that topic and logs the received messages.
+
 - Publisher node publishes a message with a counter every 500 ms.
 - Subscriber node listens to the topic and logs received messages.
 
@@ -18,34 +21,37 @@ This package demonstrates the basic functionality of a **ROS 2 Publisher** and *
 
 ## Build Steps
 
-1. Ensure that you have sourced your ROS 2 environment:
-   
-   `source /opt/ros/humble/setup.bash`
+## Build Steps
 
-2. Create your ros2 workspace
+```bash
+# 1. Ensure that you have sourced your ROS 2 environment
+# This step sets up your ROS 2 environment for usage
+source /opt/ros/humble/setup.bash
 
-    `mkdir -p ~/ros2_ws`
-    
-3. Navigate to the directory 
+# 2. Create your ROS 2 workspace
+# The workspace will be where the package and dependencies are stored
+mkdir -p ~/ros2_ws
 
-    `cd ~/ros2_ws`
+# 3. Navigate to the workspace directory
+# Change to the directory where you will work on the package
+cd ~/ros2_ws
 
-4. Clone the repository
+# 4. Clone the repository
+# Clone the desired branch of the repository to your workspace
+git clone https://github.com/nazringr/my_beginner_tutorials/tree/ros_pub_sub
 
-    `git clone https://github.com/nazringr/my_beginner_tutorials/tree/ros_pub_sub`
-   
-5. Install rosdep dependencies before building the package
+# 5. Install rosdep dependencies before building the package
+# rosdep installs the necessary dependencies for the package
+rosdep install -i --from-path src --rosdistro humble -y
 
-    `rosdep install -i --from-path src --rosdistro humble -y`
+# 6. Build the package using colcon
+# This will build the package, including setting up the compile commands for IDEs
+colcon build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-6. Build the package using colcon:
-
-    `colcon build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON`
-
-3. Source the workspace:
-
-    `source install/setup.bash`
-
+# 7. Source the workspace to set up the environment variables
+# This step ensures that the workspace is correctly sourced and ready to use
+source install/setup.bash
+```
 
 ## Run Steps
 
@@ -64,6 +70,6 @@ The publisher will publish messages to the topic, and the subscriber will listen
 
 1. To run cpplint on the source files:
     cpplint src/beginner_tutorials/src/*.cpp > cpplint_output.txt
-    
+
 2. To run clang-tidy on the source files:
     clang-tidy -p build/beginner_tutorials --extra-arg=-std=c++17 src/beginner_tutorials/src/publisher_node.cpp src/beginner_tutorials/src/subscriber_node.cpp
