@@ -5,11 +5,16 @@
   <version>0.0.0</version>
   <description>TODO: ROS2 Publisher Subscriber</description>
   <maintainer email="nazrin@umd.edu">nazrin</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
+  <exec_depend>ros2launch</exec_depend>
+
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
 
   <test_depend>ament_lint_auto</test_depend>
