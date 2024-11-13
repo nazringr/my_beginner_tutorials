@@ -3,7 +3,7 @@
 <package format="3">
   <name>beginner_tutorials</name>
   <version>0.0.0</version>
-  <description>TODO: ROS2 Publisher Subscriber</description>
+  <description>TODO: ROS2 Services, Logging, and Launch files</description>
   <maintainer email="nazrin@umd.edu">nazrin</maintainer>
   <license>Apache 2.0</license>
 
