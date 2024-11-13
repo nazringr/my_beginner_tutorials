@@ -1,3 +1,0 @@
-Done processing src/beginner_tutorials/src/publisher_node.cpp
-Done processing src/beginner_tutorials/src/subscriber_node.cpp
-Total errors found: 2
