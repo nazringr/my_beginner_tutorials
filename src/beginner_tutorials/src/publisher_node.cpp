@@ -26,25 +26,21 @@
  * @date 2024-11-8
  * @copyright Copyright (c) 2024
  */
-
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/static_transform_broadcaster.h>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <beginner_tutorials/srv/set_string.hpp>  // Updated service header
 #include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
-
 #include <rclcpp/logging.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 
-#include <tf2/LinearMath/Quaternion.h>
-#include <tf2_ros/static_transform_broadcaster.h>
-#include <geometry_msgs/msg/transform_stamped.hpp>
-
-#include <beginner_tutorials/srv/set_string.hpp>  // Updated service header
-
 /**
  * @class PublisherAndServiceNode
- * @brief ROS2 Talker node that broadcasts a tf frame "/talk" with parent "/world".aa * 
+ * @brief ROS2 Talker node that broadcasts a tf frame "/talk" with parent "/world".aa *
  * This node publishes a string message on a specified frequency and allows users to modify
  * the string via a service.
  */
@@ -52,7 +48,7 @@ class PublisherAndServiceNode : public rclcpp::Node {
  public:
   /**
    * @brief Constructor that initializes the publisher and service, and sets up the timer.
-   * 
+   *
    * Declares parameters, sets up the publisher, service, and timer, and handles frequency validation.
    */
   PublisherAndServiceNode() : Node("publisher_service_node") {
@@ -65,7 +61,7 @@ class PublisherAndServiceNode : public rclcpp::Node {
 
     // Initialize the service for changing the message string
     service_ = this->create_service<beginner_tutorials::srv::SetString>(
-        "set_string",  
+        "set_string",
         std::bind(&PublisherAndServiceNode::set_string_callback, this,
                   std::placeholders::_1, std::placeholders::_2));
 
@@ -96,7 +92,7 @@ class PublisherAndServiceNode : public rclcpp::Node {
  private:
   /**
    * @brief Timer callback function to publish the message periodically.
-   * 
+   *
    * This function is triggered by the timer and publishes the message to the topic.
    */
   void timer_callback() {
@@ -108,10 +104,10 @@ class PublisherAndServiceNode : public rclcpp::Node {
 
   /**
    * @brief Service callback function to modify the message string.
-   * 
-   * This service callback updates the string message based on the request input. If the string is empty, 
+   *
+   * This service callback updates the string message based on the request input. If the string is empty,
    * it sends an error response.
-   * 
+   *
    * @param request The service request containing the new string to set.
    * @param resp The service response containing the status message.
    */
@@ -165,9 +161,9 @@ class PublisherAndServiceNode : public rclcpp::Node {
 
 /**
  * @brief Main function for initializing and spinning the PublisherAndServiceNode.
- * 
+ *
  * Initializes ROS2, spins the node to keep it running, and shuts it down when finished.
- * 
+ *
  * @param argc The argument count for ROS2 initialization.
  * @param argv The argument vector for ROS2 initialization.
  * @return 0 on success, non-zero on failure.
@@ -175,10 +171,10 @@ class PublisherAndServiceNode : public rclcpp::Node {
 int main(int argc, char* argv[]) {
   // Initialize ROS2
   rclcpp::init(argc, argv);
-  
+
   // Spin the node to keep it alive and processing callbacks
   rclcpp::spin(std::make_shared<PublisherAndServiceNode>());
-  
+
   // Shut down ROS2 when done
   rclcpp::shutdown();
   return 0;
