@@ -20,6 +20,10 @@
 //     - Rewrite the first test case to use wait_for_service().
 //     - Use modern ROS2 syntax
 //     - Use Catch2 Fixture
+/// @file integration_test_node.cpp
+/// @brief This file contains integration tests for the ROS 2 beginner_tutorials package.
+/// Tests include service availability and topic message receipt using Catch2 framework.
+
 #include <beginner_tutorials/srv/set_string.hpp>
 #include <catch_ros2/catch_ros2.hpp>
 #include <chrono>
