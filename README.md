@@ -2,7 +2,7 @@
 
 ## Overview
 
-In this branch, beginner_tutorials package has been modified to include new features for ROS 2 services, logging, and launch files. 
+This branch is for ROS 2 Programming Assignment 3, which involves the implementation of tf2 transformations, unit testing, and working with bag files. It includes necessary changes to the beginner_tutorials package for these functionalities.
 
 ## Dependencies
 
