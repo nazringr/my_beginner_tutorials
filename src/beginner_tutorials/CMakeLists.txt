@@ -22,6 +22,9 @@ find_package(rosidl_default_runtime REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(catch_ros2 REQUIRED)
+find_package(rosbag2 REQUIRED)
+
 # Enable custom service generation
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/SetString.srv"
@@ -39,7 +42,7 @@ target_link_libraries(talker "${cpp_typesupport_target}")
 
 # Build listener - subscriber
 add_executable(listener src/subscriber_node.cpp)
-ament_target_dependencies(listener rclcpp std_msgs rosidl_default_runtime)
+ament_target_dependencies(listener rclcpp std_msgs rosidl_default_runtime geometry_msgs rosidl_default_generators)
 target_link_libraries(listener "${cpp_typesupport_target}")
 
 # Install binaries
@@ -62,8 +65,39 @@ install(
 
 # Enable testing if applicable
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  ament_lint_auto_find_test_dependencies()
+  # disable these built-in tests
+  set(ament_cmake_lint_cmake_FOUND TRUE)
+  set(ament_cmake_copyright_FOUND TRUE)
+  set(ament_cmake_cpplint_FOUND TRUE)
+  set(ament_cmake_flake8_FOUND TRUE)
+  set(ament_cmake_uncrustify_FOUND TRUE)
+    # build the integration test
+  ###########################################################################
+  # 1.) BUILD AND INSTALL THE INTEGRATION TEST NODE (aka Node that performs the test)  ##
+  ###########################################################################
+  add_executable(integration_test_node
+    test/integration_test_node.cpp
+  )
+  target_link_libraries(integration_test_node
+    catch_ros2::catch_ros2_with_node_main
+    "${cpp_typesupport_target}"
+  )
+  ament_target_dependencies(integration_test_node
+    rclcpp
+    std_msgs
+    rosidl_default_runtime
+  )
+  install(TARGETS
+    integration_test_node
+    DESTINATION lib/${PROJECT_NAME}
+  )
+  ######################################
+  ## 2.) ADD INTEGRATION TEST SUPPORT ##
+  ######################################
+  catch_ros2_add_integration_test (Catch2IntegrationTest
+    LAUNCH_FILE integration_test.launch.yaml
+
+    )
 endif()
 
 ament_export_dependencies(rosidl_default_runtime)
