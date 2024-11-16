@@ -57,34 +57,68 @@ source install/setup.bash
 
 The publisher will publish messages to the topic, and the subscriber will listen and display those messages.
 
-1. In Terminal 1, Run Talker (Remember sourcing first)
+```bash
+#1. In Terminal 1, Run Talker (Remember sourcing first)
 
-    `ros2 run beginner_tutorials talker`
+ros2 run beginner_tutorials talker
 
-2. In Terminal 2, Run Listener (Remember sourcing first)
+#2. In Terminal 2, Run Listener (Remember sourcing first)
 
-    `ros2 run beginner_tutorials listener`
+ros2 run beginner_tutorials listener
 
-3. In Terminal 3, Call the Service (Remember sourcing first)
+#3. In Terminal 3, Call the Service (Remember sourcing first)
     
-    `ros2 service call /set_string beginner_tutorials/srv/SetString "{input_string: Nazrin}"`
+ros2 service call /set_string beginner_tutorials/srv/SetString "{input_string: Nazrin}"
 
-or
+#or
 
-1. In Terminal 1, Run Launch file (Remember sourcing first)
+#1. In Terminal 1, Run Launch file (Remember sourcing first)
     
-    `ros2 launch beginner_tutorials launch.py publish_frequency:=1000`
+ros2 launch beginner_tutorials launch.py publish_frequency:=1000
 
-2. In Terminal 2, Call the Service (Remember sourcing first)
+#2. In Terminal 2, Call the Service (Remember sourcing first)
     
-    `ros2 service call /set_string beginner_tutorials/srv/SetString "{input_string: Nazrin}"`
+ros2 service call /set_string beginner_tutorials/srv/SetString "{input_string: Nazrin}"
+
+#or
+
+#1. In Terminal 1, Launch with Rosbag
+
+ros2 launch beginner_tutorials launch.py publish_frequency:=1000 enable_recording:=true
+#2. In Terminal 2, Call the Service (Remember sourcing first)
+    
+ros2 service call /set_string beginner_tutorials/srv/SetString "{input_string: Nazrin}"
+```
+## Replaying Rosbag Topic Data
+
+# Step 1: Start the Listener Node
+# Open a new terminal and execute the following commands:
+
+```bash
+# Source the workspace after a successful build
+source install/setup.bash
+# Launch the listener node
+ros2 run beginner_tutorials listener
+
+# In another terminal, run the following commands:
+
+# Source the workspace
+source install/setup.bash
+# Replay the Rosbag file
+ros2 bag play ./src/beginner_tutorials/results/rosbag2_2024_11_16-07_32_50
+```
+
+Observation:
+Return to the terminal running the listener node. 
+You will see that it processes the topic messages from the Rosbag recording.
 
 
     
 ## Linting and Code Quality
+```bash
+To run cpplint on the source files:
+    `cpplint src/beginner_tutorials/src/*.cpp > cpplint_output.txt`
 
-1. To run cpplint on the source files:
-    cpplint src/beginner_tutorials/src/*.cpp > cpplint_output.txt
-
-2. To run clang-tidy on the source files:
-    clang-tidy -p build/beginner_tutorials --extra-arg=-std=c++17 src/beginner_tutorials/src/publisher_node.cpp src/beginner_tutorials/src/subscriber_node.cpp
+To run clang-tidy on the source files:
+    `clang-tidy -p build/beginner_tutorials --extra-arg=-std=c++17 src/beginner_tutorials/src/publisher_node.cpp src/beginner_tutorials/src/subscriber_node.cpp`
+```

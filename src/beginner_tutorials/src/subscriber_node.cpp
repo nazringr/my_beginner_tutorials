@@ -36,7 +36,7 @@ using std::placeholders::_1;
 /**
  * @class MinimalSubscriber
  * @brief ROS2 Node that subscribes to a topic and sends the received message to a service.
- * 
+ *
  * This node listens to messages on the "topic" topic and sends the received string
  * to a service to update the message.
  */
@@ -44,7 +44,7 @@ class MinimalSubscriber : public rclcpp::Node {
  public:
   /**
    * @brief Constructor for the MinimalSubscriber node.
-   * 
+   *
    * Initializes the subscription to the "topic" topic and sets up the client
    * for the "set_string" service.
    */
@@ -60,10 +60,10 @@ class MinimalSubscriber : public rclcpp::Node {
  private:
   /**
    * @brief Callback function for handling incoming messages on the "topic" topic.
-   * 
+   *
    * When a message is received, this function logs the message data and sends
    * the message string to the "set_string" service to update the string.
-   * 
+   *
    * @param msg The received message, a pointer to a String message.
    */
   void topic_callback(const std_msgs::msg::String::SharedPtr msg) {
@@ -87,9 +87,9 @@ class MinimalSubscriber : public rclcpp::Node {
 
   /**
    * @brief Callback function for handling the service response.
-   * 
+   *
    * This function processes the service response and logs the result.
-   * 
+   *
    * @param future The future object representing the service response.
    */
   void service_response_callback(
@@ -110,10 +110,10 @@ class MinimalSubscriber : public rclcpp::Node {
 
 /**
  * @brief Main function for initializing and spinning the MinimalSubscriber node.
- * 
+ *
  * Initializes ROS2, spins the node to keep it alive and processing callbacks,
  * and shuts down ROS2 when finished.
- * 
+ *
  * @param argc The argument count for ROS2 initialization.
  * @param argv The argument vector for ROS2 initialization.
  * @return 0 on success, non-zero on failure.
@@ -121,10 +121,10 @@ class MinimalSubscriber : public rclcpp::Node {
 int main(int argc, char* argv[]) {
   // Initialize ROS2
   rclcpp::init(argc, argv);
-  
+
   // Spin the node to keep it alive and processing callbacks
   rclcpp::spin(std::make_shared<MinimalSubscriber>());
-  
+
   // Shut down ROS2 when done
   rclcpp::shutdown();
   return 0;
