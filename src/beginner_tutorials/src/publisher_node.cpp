@@ -36,12 +36,15 @@
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/string.hpp>
 
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/static_transform_broadcaster.h>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+
 #include <beginner_tutorials/srv/set_string.hpp>  // Updated service header
 
 /**
  * @class PublisherAndServiceNode
- * @brief ROS2 Node that publishes a string message and provides a service to modify the message.
- * 
+ * @brief ROS2 Talker node that broadcasts a tf frame "/talk" with parent "/world".aa * 
  * This node publishes a string message on a specified frequency and allows users to modify
  * the string via a service.
  */
@@ -82,7 +85,7 @@ class PublisherAndServiceNode : public rclcpp::Node {
       rclcpp::shutdown();
       return;
     }
-
+    tf_static_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
     // Set up a timer to publish messages at the specified frequency
     timer_ = this->create_wall_timer(
         std::chrono::milliseconds(
@@ -100,6 +103,7 @@ class PublisherAndServiceNode : public rclcpp::Node {
     auto message = this->message;
     RCLCPP_INFO_STREAM(this->get_logger(), "Publishing: " << message.data);
     publisher_->publish(message);
+    this->make_transforms();
   }
 
   /**
@@ -129,11 +133,34 @@ class PublisherAndServiceNode : public rclcpp::Node {
                           "Received Service Request: " << request->input_string);
     }
   }
+    void make_transforms() {
+        geometry_msgs::msg::TransformStamped t;
+
+        t.header.stamp = this->get_clock()->now();
+        t.header.frame_id = "world";
+        t.child_frame_id = "talk";
+
+        t.transform.translation.x = 0.1;
+        t.transform.translation.y = 0.1;
+        t.transform.translation.z = 0.1;
+
+        tf2::Quaternion q;
+        q.setRPY(0.1, 0.1, 0.1);
+
+        t.transform.rotation.x = q.x();
+        t.transform.rotation.y = q.y();
+        t.transform.rotation.z = q.z();
+        t.transform.rotation.w = q.w();
+
+        tf_static_broadcaster_->sendTransform(t);
+  }
 
   std_msgs::msg::String message;  /**< The message to be published */
   rclcpp::TimerBase::SharedPtr timer_;  /**< Timer for controlling publish frequency */
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;  /**< Publisher for sending messages */
   rclcpp::Service<beginner_tutorials::srv::SetString>::SharedPtr service_;  /**< Service for changing the message */
+
+  std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_static_broadcaster_;
 };
 
 /**

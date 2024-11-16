@@ -19,7 +19,9 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(rosidl_default_runtime REQUIRED)
-
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(geometry_msgs REQUIRED)
 # Enable custom service generation
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/SetString.srv"
@@ -32,7 +34,7 @@ rosidl_get_typesupport_target(cpp_typesupport_target
 
 # Build talker - publisher
 add_executable(talker src/publisher_node.cpp)
-ament_target_dependencies(talker rclcpp std_msgs rosidl_default_runtime)
+ament_target_dependencies(talker rclcpp std_msgs rosidl_default_runtime tf2 tf2_ros geometry_msgs)
 target_link_libraries(talker "${cpp_typesupport_target}")
 
 # Build listener - subscriber
